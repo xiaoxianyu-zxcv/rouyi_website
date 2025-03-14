@@ -1,6 +1,5 @@
-package com.example.website.system.config;
+package com.ruoyi.website.system.config;
 
-import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +13,8 @@ import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInt
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 
+import javax.sql.DataSource;
+
 /**
  * 官网模块的MyBatis-Plus配置类
  *
@@ -26,9 +27,10 @@ import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
  */
 @Configuration
 // 仅当website.mybatis-plus.enabled=true时，此配置才生效
-@ConditionalOnProperty(name = "website.mybatis-plus.enabled", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(name = "website.mybatis-plus.enabled", havingValue = "true")
 // 只扫描官网模块的Mapper接口，并使用专用的SqlSessionFactory
-@MapperScan(basePackages = "com.ruoyi.website.system.repository.**.mapper", sqlSessionFactoryRef = "websiteSqlSessionFactory")
+@MapperScan(basePackages = "com.ruoyi.website.system.repository", sqlSessionFactoryRef = "websiteSqlSessionFactory")
+
 public class WebsiteMybatisPlusConfig {
 
     /**

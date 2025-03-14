@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.website.system.repository.ArticleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ruoyi.website.domain.entity.Article">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="summary" property="summary"/>
+        <result column="thumbnail" property="thumbnail"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="status" property="status"/>
+        <result column="view_count" property="viewCount"/>
+        <result column="publish_time" property="publishTime"/>
+        <result column="is_top" property="isTop"/>
+        <result column="is_recommend" property="isRecommend"/>
+        <result column="source" property="source"/>
+        <result column="author" property="author"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_by" property="createBy"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="deleted" property="deleted"/>
+        <result column="version" property="version"/>
+        <!-- 非表字段 -->
+        <result column="category_name" property="categoryName"/>
+    </resultMap>
+
+    <!-- 分页查询文章（带分类名称） -->
+    <select id="selectArticlePage" resultMap="BaseResultMap">
+        SELECT
+        a.*,
+        c.name AS category_name
+        FROM
+        cms_article a
+        LEFT JOIN
+        cms_category c ON a.category_id = c.id
+        <where>
+            a.deleted = 0
+            <if test="article.title != null and article.title != ''">
+                AND a.title LIKE CONCAT('%', #{article.title}, '%')
+            </if>
+            <if test="article.categoryId != null">
+                AND a.category_id = #{article.categoryId}
+            </if>
+            <if test="article.status != null">
+                AND a.status = #{article.status}
+            </if>
+        </where>
+        ORDER BY
+        a.is_top DESC,
+        a.publish_time DESC
+    </select>
+
+    <!-- 增加文章浏览次数 -->
+    <update id="incrementViewCount">
+        UPDATE cms_article
+        SET view_count = view_count + 1
+        WHERE id = #{id} AND deleted = 0
+    </update>
+
+</mapper>

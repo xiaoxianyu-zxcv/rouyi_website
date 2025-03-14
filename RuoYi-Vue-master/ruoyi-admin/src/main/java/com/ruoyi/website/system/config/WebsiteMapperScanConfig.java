@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnProperty(name = "website.mapper-scan.enabled", havingValue = "true", matchIfMissing = false)
-@MapperScan("com.ruoyi.website.system.repository.**.mapper")
+@MapperScan({"com.ruoyi.website.system.repository", "com.ruoyi.website.system.repository.**.mapper"})
 public class WebsiteMapperScanConfig {
     // 无需额外配置，仅提供MapperScan
 }

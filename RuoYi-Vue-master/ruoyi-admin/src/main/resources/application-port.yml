@@ -127,3 +127,10 @@ xss:
   excludes: /system/notice
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
+
+# 控制是否启用独立的MapperScan配置
+website:
+  mybatis-plus:
+    enabled: true
+  mapper-scan:
+    enabled: false  # 确保禁用简单的 MapperScan 配置
